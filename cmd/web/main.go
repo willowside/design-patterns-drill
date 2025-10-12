@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"go-designpattern/models"
+	"go-designpattern/configuration"
 	"html/template"
 	"log"
 	"net/http"
@@ -16,8 +16,7 @@ const port = ":4000"
 type application struct {
 	templateMap map[string]*template.Template
 	config      appConfig
-	// DB          *sql.DB // use Repository in models
-	Models models.Models
+	App         *configuration.Application
 }
 
 type appConfig struct {
@@ -38,8 +37,8 @@ func main() {
 	if err != nil {
 		log.Panic(err)
 	}
-	// app.DB = db
-	app.Models = *models.New(db)
+	fmt.Println("Got db connection")
+	app.App = configuration.New(db)
 
 	srv := &http.Server{
 		Addr:              port,

@@ -2,6 +2,7 @@ package models
 
 import (
 	"database/sql"
+	"fmt"
 	"time"
 )
 
@@ -16,8 +17,10 @@ type Models struct { // Camel case cuz it's exported to be used outside of this 
 func New(conn *sql.DB) *Models { // exported to be used outside of this pack
 	if conn != nil {
 		// db = conn
+		fmt.Print("newMysqlRepository")
 		repo = newMysqlRepository(conn)
 	} else {
+		fmt.Print("newTestRepository")
 		repo = newTestRepository(nil)
 	}
 

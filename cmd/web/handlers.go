@@ -54,10 +54,56 @@ func (app *application) CreateCatFromAbstractFactory(w http.ResponseWriter, r *h
 
 func (app *application) GetAllDogBreedsJSON(w http.ResponseWriter, r *http.Request) {
 	var t toolbox.Tools
-	dogBreeds, err := app.Models.DogBreed.All()
+	dogBreeds, err := app.App.Models.DogBreed.All()
 	if err != nil {
 		_ = t.ErrorJSON(w, err, http.StatusBadRequest)
 		return
 	}
 	_ = t.WriteJSON(w, http.StatusOK, dogBreeds)
+}
+
+func (app *application) CreateDogWithBuilder(w http.ResponseWriter, r *http.Request) {
+	var t toolbox.Tools
+
+	// create a dog using the builder pattern
+	p, err := pets.NewPetBuilder().
+		SetSepcies("dog").
+		SetBreed("mixed").
+		SetWeight(15).
+		SetDescription("A mixed breed of unknow origin. Probably has some German Shepherd heritage.").
+		SetColor("Black and Amber").
+		SetAge(2).
+		SetAgeEstimated(true).
+		Build()
+
+	if err != nil {
+		_ = t.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	_ = t.WriteJSON(w, http.StatusOK, p)
+
+}
+
+func (app *application) CreateCatWithBuilder(w http.ResponseWriter, r *http.Request) {
+	var t toolbox.Tools
+
+	// create a dog using the builder pattern
+	p, err := pets.NewPetBuilder().
+		SetSepcies("cat").
+		SetBreed("Oriental Shorthair").
+		SetWeight(6).
+		SetDescription("An Oriental Shorthair heritage.").
+		SetColor("Tabby").
+		SetAge(2).
+		SetAgeEstimated(true).
+		Build()
+
+	if err != nil {
+		_ = t.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	_ = t.WriteJSON(w, http.StatusOK, p)
+
 }
