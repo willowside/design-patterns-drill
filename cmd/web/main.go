@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"go-designpattern/adapters"
 	"go-designpattern/configuration"
 	"html/template"
 	"log"
@@ -37,8 +38,14 @@ func main() {
 	if err != nil {
 		log.Panic(err)
 	}
-	fmt.Println("Got db connection")
-	app.App = configuration.New(db)
+
+	// jsonBackend := &adapters.JSONBackend{}
+	// jsonAdapter := &adapters.RemoteService{Remote: jsonBackend}
+
+	xmlBackend := &adapters.XMLBackend{}
+	xmlAdapter := &adapters.RemoteService{Remote: xmlBackend}
+
+	app.App = configuration.New(db, xmlAdapter)
 
 	srv := &http.Server{
 		Addr:              port,

@@ -29,6 +29,7 @@ func New(conn *sql.DB) *Models { // exported to be used outside of this pack
 	}
 }
 
+// Domain Entities
 type DogBreed struct {
 	ID               int    `json:"id"`
 	BREED            string `json:"breed"`
@@ -42,15 +43,15 @@ type DogBreed struct {
 }
 
 type CatBreed struct {
-	ID               int    `json:"id"`
-	BREED            string `json:"breed"`
-	WeightLowLbs     int    `json:"weight_low_lbs"`
-	WeightHighLbs    int    `json:"weight_high_lbs"`
-	AverageWeight    int    `json:"average_weight"`
-	Lifespan         int    `json:"average_lifespan"`
-	Details          string `json:"details"`
-	AlternateNames   string `json:"alternate_names"`
-	GeographicOrigin string `json:"geographic_origin"`
+	ID               int    `json:"id" xml:"id" `
+	BREED            string `json:"breed" xml:"breed"`
+	WeightLowLbs     int    `json:"weight_low_lbs" xml:"weight_low_lbs"`
+	WeightHighLbs    int    `json:"weight_high_lbs" xml:"weight_high_lbs"`
+	AverageWeight    int    `json:"average_weight" xml:"average_weight"`
+	Lifespan         int    `json:"average_lifespan" xml:"average_lifespan"`
+	Details          string `json:"details" xml:"details"`
+	AlternateNames   string `json:"alternate_names" xml:"alternate_names"`
+	GeographicOrigin string `json:"geographic_origin" xml:"geographic_origin"`
 }
 
 type Dog struct {
@@ -69,6 +70,10 @@ type Dog struct {
 
 func (d *DogBreed) All() ([]*DogBreed, error) {
 	return repo.AllDogBreeds()
+}
+
+func (d *DogBreed) GetBreedByName(b string) (*DogBreed, error) {
+	return repo.GetBreedByName(b)
 }
 
 type Cat struct {
